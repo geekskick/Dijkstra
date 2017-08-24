@@ -34,3 +34,4 @@
 *.pptx
 
 Dijkstra\.xcodeproj/
+doxy/html
