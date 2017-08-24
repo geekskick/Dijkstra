@@ -1,0 +1,9 @@
+digraph "queue_pop_front"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node31 [label="queue_pop_front",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node31 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="queue_pop_min",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$main_8c.html#a373891601cf45d9e39fbd8e226631ce9"];
+}
