@@ -28,27 +28,26 @@ typedef struct queue_node_t queue_node_t;
  A node in the queue
  */
 struct queue_node_t{
-	queue_node_t* next;
-	graph_node_t* node;
+	queue_node_t*	next;
+	graph_node_t*	node;
 };
 
 /**
  A monodirectional joing between two nodes in the graph
  */
 struct graph_route_t{
-	graph_node_t* end;
-	unsigned int distance;
+	graph_node_t*	end;
+	unsigned int	distance;
 };
-
 
 /**
  A node in the graph
  */
 struct graph_node_t{
-	graph_route_t neighbours[MAX_NEIGHBOURS];
-	unsigned int num_neighbours;
-	unsigned int shortest_distance_to_me;
-	int id;
+	graph_route_t	neighbours[MAX_NEIGHBOURS];
+	unsigned int	num_neighbours;
+	unsigned int	shortest_distance_to_me;
+	int				id;
 };
 
 
