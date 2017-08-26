@@ -34,21 +34,20 @@ The graph is created on the stack. This is done purely because I know that I'm n
 
 ## Queue
 
-> Queue is definitely the wrong way to describe this data structure and with a little though something ore appropriate can be implemented. Let me know what's better!
-
-In order to know which city in my graph I haven't yet visited they are all added to the `queue` where each item gets it's own `queue_node_t`:
+In order to know which city in my graph I haven't yet visited they are all added to the `priority_queue` where each item gets it's own `priority_queue_node_t`:
 
 ```c
-struct queue_node_t{
-	queue_node_t				*next;
-	graph_node_t				*node;
+struct priority_queue_node_t{
+    priority_queue_node_t                   *next;
+    graph_node_t                            *node;
 };
 ```
+A priority queue means that, instead of a normal FIFO queue it's a FI-Highest Priority-O. The highest priority in this case is the item with the shortest distance to it. If I was making a re-usable queue I'd probaby create a callback to calculate the priority when pushing a node to it, however here it's easy enough to just find the minimal item when trying to pop.
 
-The key functionality for the `queue` is to find the minimal item and pop it out. This is the main part of the Dijkstra algorithm. The function `queue_pop_min` does this: 
+The key functionality for the `queue` is to find the minimal item and pop it out. This is the main part of the Dijkstra algorithm. The function `queue_pop` does this: 
 
 ```c
-queue_node_t*	queue_pop_min			(queue_node_t** front){
+queue_node_t*	      queue_pop			(queue_node_t** front){
 	if(*front == NULL) {
 		return NULL;
 	}
