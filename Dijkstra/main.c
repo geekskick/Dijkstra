@@ -13,60 +13,51 @@
 /**
  The maximum number of neighbours a graph node can have
  */
-static const unsigned int		MAX_NEIGHBOURS = 10;
+static const unsigned int					MAX_NEIGHBOURS = 10;
 
 /**
  The column of the output in which the info starts
  */
-static const unsigned int		INFO_COL = 60;
+static const unsigned int					INFO_COL = 60;
 
-typedef struct graph_route_t	graph_route_t;
-typedef struct graph_node_t		graph_node_t;
-typedef struct queue_node_t		queue_node_t;
+typedef struct graph_route_t				graph_route_t;
+typedef struct graph_node_t					graph_node_t;
+typedef struct priority_queue_node_t		priority_queue_node_t;
 
 /**
  A node in the queue
  */
-struct queue_node_t{
-	queue_node_t				*next;
-	graph_node_t				*node;
+struct priority_queue_node_t{
+	priority_queue_node_t					*next;
+	graph_node_t							*node;
 };
 
 /**
  A monodirectional joing between two nodes in the graph
  */
 struct graph_route_t{
-	graph_node_t				*end;
-	unsigned int				distance;
+	graph_node_t							*end;
+	unsigned int							distance;
 };
 
 /**
  A node in the graph
  */
 struct graph_node_t{
-	graph_route_t				neighbours[MAX_NEIGHBOURS];
-	unsigned int				num_neighbours;
-	unsigned int				shortest_distance_to_me;
-	int							id;
+	graph_route_t							neighbours[MAX_NEIGHBOURS];
+	unsigned int							num_neighbours;
+	unsigned int							shortest_distance_to_me;
+	int										id;
 };
 
 
 //------- Queue functionality ------
-
-/**
- Pop the item from the front of the Queue. Updates the *front to be the new front.
-
- @param front Pointer to the first queue_node of the queue - updated to be the new front once node removed
- @return Address of the popped node.
- */
-queue_node_t*	queue_pop_front		(queue_node_t **front);
-
 /**
  Free a node.
 
  @param v Mode to free.
  */
-void			queue_node_free		(queue_node_t *v	);
+void					queue_node_free		(priority_queue_node_t *v	);
 
 /**
  Pop the item in the queue with the shortest distance to it. Will pop the first node if all are of equal distance.
@@ -74,14 +65,14 @@ void			queue_node_free		(queue_node_t *v	);
  @param front Pointer to the front of the queue.
  @return The popped node address. NULL if no nodes in the queue.
  */
-queue_node_t*	queue_pop_min		(queue_node_t **front);
+priority_queue_node_t*	queue_pop			(priority_queue_node_t **front);
 
 /**
  Frees the entire Queue
 
  @param front Pointer to the first node in the queue
  */
-void			queue_free			(queue_node_t ** front);
+void					queue_free			(priority_queue_node_t ** front);
 
 /**
  Dynamically creates a queue node
@@ -89,7 +80,7 @@ void			queue_free			(queue_node_t ** front);
  @param node Address of the graph node to put in the queue_node
  @return Pointer to HEAP containing the new queue node
  */
-queue_node_t*   queue_create_node	(graph_node_t *const node);
+priority_queue_node_t*	queue_create_node	(graph_node_t *const node);
 
 /**
  Gets the number of items in the queue
@@ -97,7 +88,7 @@ queue_node_t*   queue_create_node	(graph_node_t *const node);
  @param node The address of the first item in the queue
  @return The length of the queue
  */
-unsigned int	queue_num_contents	(queue_node_t *const *const node);
+unsigned int			queue_num_contents	(priority_queue_node_t *const *const node);
 
 /**
  Test if the queue already contains a graph node.
@@ -106,7 +97,7 @@ unsigned int	queue_num_contents	(queue_node_t *const *const node);
  @param node The address of the node to try and find
  @return True if the queue contains it already. Else false.
  */
-bool			queue_contains_node	(queue_node_t *const *const front, graph_node_t *const node);
+bool					queue_contains_node	(priority_queue_node_t *const *const front, graph_node_t *const node);
 
 /**
  Test if the queue is empty
@@ -114,14 +105,14 @@ bool			queue_contains_node	(queue_node_t *const *const front, graph_node_t *cons
  @param front Address of the front of the queue
  @return True if there are no items in the queue.
  */
-bool			queue_is_empty		(queue_node_t *const *const front);
+bool					queue_is_empty		(priority_queue_node_t *const *const front);
 
 /**
  Display the Queue contents in the INFO section of output
 
  @param front The Address of the first queue node.
  */
-void			queue_print			(queue_node_t *const *const front);
+void					queue_print			(priority_queue_node_t *const *const front);
 
 /**
  Pop the first item from the queue and update the front
@@ -129,7 +120,7 @@ void			queue_print			(queue_node_t *const *const front);
  @param front The address of the first item in the queue
  @return The address of the popped item
  */
-queue_node_t*	queue_pop_front		(queue_node_t **const front);
+priority_queue_node_t*	queue_pop_front		(priority_queue_node_t **const front);
 
 /**
  Push to the back of the queue
@@ -137,7 +128,7 @@ queue_node_t*	queue_pop_front		(queue_node_t **const front);
  @param front The address of the front of the queue
  @param to_add The graph node to add to the back of the queue
  */
-void			queue_push_back		(queue_node_t **const front, graph_node_t *const to_add);
+void					queue_push			(priority_queue_node_t **const front, graph_node_t *const to_add);
 
 //------- Graph functionality ------
 
@@ -147,7 +138,7 @@ void			queue_push_back		(queue_node_t **const front, graph_node_t *const to_add)
  @param id The id of the new node.
  @return The new node
  */
-graph_node_t	graph_create_node		(const unsigned int id);
+graph_node_t			graph_create_node	(const unsigned int id);
 
 /**
  Adds the neighbour to the node.
@@ -156,7 +147,7 @@ graph_node_t	graph_create_node		(const unsigned int id);
  @param to The end point of the route
  @param dist The length of the route
  */
-void			graph_add_neighbour		(graph_node_t *const from, graph_node_t *const to, const unsigned int dist);
+void					graph_add_neighbour	(graph_node_t *const from, graph_node_t *const to, const unsigned int dist);
 
 /**
  Display the graph in the INFO section of the output
@@ -164,7 +155,7 @@ void			graph_add_neighbour		(graph_node_t *const from, graph_node_t *const to, c
  @param nodes The address of the graph array
  @param num_nodes The number of items in the graph.
  */
-void			graph_print				(graph_node_t *const *const nodes, const unsigned int num_nodes);
+void					graph_print			(graph_node_t *const *const nodes, const unsigned int num_nodes);
 
 /**
  Performs the Dijkstra Algorithm to find the shortest distance from A to B
@@ -175,10 +166,10 @@ void			graph_print				(graph_node_t *const *const nodes, const unsigned int num_
  @param dest the destination city array
  @return The shortest distance, of UINT_MAX if no route found.
  */
-unsigned int	graph_get_shortest_path	(graph_node_t *const *const nodes, const int num_nodes, const int src, const int dest);
+unsigned int			graph_get_shortest_path	(graph_node_t *const *const nodes, const int num_nodes, const int src, const int dest);
 
 //------- MAIN ------
-int				main					(int argc, const char * argv[]) {
+int				main						(int argc, const char * argv[]) {
 	graph_node_t city	= graph_create_node(1);
 	graph_node_t second = graph_create_node(2);
 	graph_node_t third	= graph_create_node(3);
@@ -232,18 +223,18 @@ int				main					(int argc, const char * argv[]) {
 }
 
 //--------------------
-void			queue_node_free			(queue_node_t*v){
+void					queue_node_free		(priority_queue_node_t*v){
 	printf("%*. [INFO] Freeing memory at %p\n",INFO_COL, v); free(v); v = NULL;
 }
 
 //--------------------
-queue_node_t*	queue_pop_min			(queue_node_t** front){
+priority_queue_node_t*	queue_pop			(priority_queue_node_t** front){
 	if(*front == NULL) {
 		return NULL;
 	}
-	queue_node_t* previous = NULL;
-	queue_node_t* min = *front;
-	queue_node_t* temp = *front;
+	priority_queue_node_t* previous = NULL;
+	priority_queue_node_t* min = *front;
+	priority_queue_node_t* temp = *front;
 	
 	// only one item so return pointer to it
 	if(temp->next == NULL){ *front = NULL; return min; }
@@ -267,8 +258,8 @@ queue_node_t*	queue_pop_min			(queue_node_t** front){
 }
 
 //--------------------
-queue_node_t*	queue_create_node		(graph_node_t * const n){
-	queue_node_t * temp = calloc(sizeof(queue_node_t), 1);
+priority_queue_node_t*	queue_create_node	(graph_node_t * const n){
+	priority_queue_node_t * temp = calloc(sizeof(priority_queue_node_t), 1);
 	printf("%*. [INFO] All'ing memory at %p\n", INFO_COL, temp);
 	temp->next = NULL;
 	temp->node = n;
@@ -276,16 +267,16 @@ queue_node_t*	queue_create_node		(graph_node_t * const n){
 }
 
 //--------------------
-unsigned int	queue_num_contents		(queue_node_t* const *const node){
+unsigned int			queue_num_contents		(priority_queue_node_t* const *const node){
 	unsigned int count = 0;
-	queue_node_t *temp = *node;
+	priority_queue_node_t *temp = *node;
 	while(temp){ count++; temp = temp->next; }
 	return count;
 }
 
 //--------------------
-bool			queue_contains_node		(queue_node_t *const *const front, graph_node_t * const node){
-	queue_node_t*temp = *front;
+bool					queue_contains_node		(priority_queue_node_t *const *const front, graph_node_t * const node){
+	priority_queue_node_t*temp = *front;
 	while(temp != NULL) {
 		if(temp->node == node){
 			return true;
@@ -296,28 +287,28 @@ bool			queue_contains_node		(queue_node_t *const *const front, graph_node_t * co
 }
 
 //--------------------
-bool			queue_is_empty			(queue_node_t *const *const front){
+bool					queue_is_empty			(priority_queue_node_t *const *const front){
 	return *front == NULL;
 }
 
 //--------------------
-void			queue_print				(queue_node_t *const *const front){
+void					queue_print				(priority_queue_node_t *const *const front){
 	printf("%*. [INFO] The queue at %p is:\n", INFO_COL,*front);
 	int count = 0;
-	queue_node_t *temp = *front;
+	priority_queue_node_t *temp = *front;
 	while(temp){ printf("%*. [INFO]\t\tQueue[%i].node->id = %-*d\n",INFO_COL, count++, 4, temp->node->id); temp = temp->next; }
 }
 
 //--------------------
-void			queue_free				(queue_node_t ** front){
+void					queue_free				(priority_queue_node_t ** front){
 	if(*front == NULL){  return; }
 	queue_free(&(*front)->next);
 	queue_node_free(*front);
 }
 
 //--------------------
-void			queue_push_back			(queue_node_t **const front, graph_node_t *const to_add){
-	queue_node_t* temp = *front;
+void					queue_push				(priority_queue_node_t **const front, graph_node_t *const to_add){
+	priority_queue_node_t* temp = *front;
 	// if the first item
 	printf("%*. [INFO] Pushing %p to the queue at %p\n", INFO_COL,to_add, *front);
 	
@@ -331,17 +322,17 @@ void			queue_push_back			(queue_node_t **const front, graph_node_t *const to_add
 }
 
 //--------------------
-queue_node_t*	queue_pop_front			(queue_node_t **const front){
+priority_queue_node_t*	queue_pop_front			(priority_queue_node_t **const front){
 	printf("%*. [INFO] Popping %p from queue at %p\t", INFO_COL,(*front)->node, *front);
 	if(queue_is_empty(front)){ printf(" Queue already empty\n"); return NULL; }
 	printf("\n");
-	queue_node_t* to_free = *front;
+	priority_queue_node_t* to_free = *front;
 	*front = (*front)->next;
 	return to_free;
 }
 
 //--------------------
-graph_node_t	graph_create_node		(const unsigned int id){
+graph_node_t			graph_create_node		(const unsigned int id){
 	graph_node_t n;
 	n.id = id;
 	n.num_neighbours = 0;
@@ -350,13 +341,13 @@ graph_node_t	graph_create_node		(const unsigned int id){
 }
 
 //--------------------
-void			graph_add_neighbour		(graph_node_t * const from, graph_node_t * const to, const unsigned int dist){
+void					graph_add_neighbour		(graph_node_t * const from, graph_node_t * const to, const unsigned int dist){
 	graph_route_t new_route = { to, dist };
 	from->neighbours[(from->num_neighbours)++] = new_route;
 }
 
 //--------------------
-void			graph_print				(graph_node_t * const * const nodes, const unsigned int num_nodes){
+void					graph_print				(graph_node_t * const * const nodes, const unsigned int num_nodes){
 	printf("%*. [INFO] There are %u nodes\n", INFO_COL,num_nodes);
 	for(int i = 0; i < num_nodes; i++){
 		printf("%*. [INFO]\tShortest [%u]\t%d is at %p\n", INFO_COL,nodes[i]->shortest_distance_to_me, nodes[i]->id, nodes[i]);
@@ -367,15 +358,15 @@ void			graph_print				(graph_node_t * const * const nodes, const unsigned int nu
 }
 
 //--------------------
-unsigned int	graph_get_shortest_path	(graph_node_t * const * const nodes, const int num_nodes, const int src, const int dest){
+unsigned int			graph_get_shortest_path	(graph_node_t * const * const nodes, const int num_nodes, const int src, const int dest){
 	
 	// The source has to have the shortest distance marked as 0 before starting
 	nodes[src]->shortest_distance_to_me = 0;
-	queue_node_t * not_visited = NULL;
+	priority_queue_node_t * not_visited = NULL;
 	
 	// No nodes have been visited at this point so add them all the the queue
 	for(int i = 0; i < num_nodes; i++){
-		queue_push_back(&not_visited, nodes[i]);
+		queue_push(&not_visited, nodes[i]);
 	}
 	
 	queue_print(&not_visited);
@@ -386,7 +377,7 @@ unsigned int	graph_get_shortest_path	(graph_node_t * const * const nodes, const 
 		// The first time through this will be the source node.
 		printf("%*. [INFO] Not visited graph nodes:\n", INFO_COL);
 		queue_print(&not_visited);
-		queue_node_t* current = queue_pop_min(&not_visited);
+		priority_queue_node_t* current = queue_pop(&not_visited);
 		printf("%*. [INFO] Not visited graph nodes after minimum removed:\n", INFO_COL);
 		queue_print(&not_visited);
 		
